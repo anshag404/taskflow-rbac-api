@@ -1,6 +1,6 @@
 # TaskFlow — Scalable REST API with Auth & RBAC
 
-A production-ready, scalable REST API built with **Node.js + Express + Sequelize (SQLite)**, featuring JWT authentication, role-based access control, CRUD task management, and a **React** frontend dashboard.
+A production-ready, scalable REST API built with **Node.js + Express + Sequelize (PostgreSQL)**, featuring JWT authentication, role-based access control, CRUD task management, and a **React** frontend dashboard.
 
 ---
 
@@ -72,7 +72,7 @@ scalable-rest-api/
 |------------|--------------------------------|
 | Runtime    | Node.js 18+                   |
 | Framework  | Express.js 4.x                |
-| Database   | SQLite (Sequelize ORM)         |
+| Database   | PostgreSQL (Sequelize ORM)     |
 | Auth       | JWT + bcrypt                   |
 | Validation | Zod                            |
 | Logging    | Winston                        |
@@ -142,7 +142,7 @@ The frontend will start on **http://localhost:5173**
 | `JWT_SECRET`    | (set in .env)                                    | JWT signing secret   |
 | `JWT_EXPIRES_IN`| `24h`                                            | Token expiry         |
 
-> **Note**: The project uses SQLite by default (zero-config). To switch to PostgreSQL, update `config/db.js` with Sequelize PostgreSQL dialect and add the connection variables to `.env`.
+> **Note**: The project uses PostgreSQL. Ensure you have your PostgreSQL server running and the credentials in `.env` are correct before starting the backend.
 
 ---
 
@@ -210,7 +210,7 @@ CREATE TABLE tasks (
 
 ### Horizontal Scaling
 - **Stateless API**: JWT tokens are self-contained — no server-side session storage needed. Any instance can verify any token, enabling easy horizontal scaling behind a load balancer.
-- **Database**: SQLite is for development. Swap to **PostgreSQL** (via Sequelize config change) for production with connection pooling already configured.
+- **Database**: PostgreSQL is configured and ready for production with connection pooling already configured out-of-the-box via Sequelize.
 
 ### Microservices Path
 The modular architecture (controllers → services → models) makes it straightforward to extract services:

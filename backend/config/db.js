@@ -1,12 +1,21 @@
 const { Sequelize } = require('sequelize');
-const path = require('path');
 const logger = require('../utils/logger');
+require('dotenv').config();
 
-// SQLite configuration (zero-config, file-based)
-// To switch to PostgreSQL, change dialect and provide connection params
-const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage: path.join(__dirname, '..', 'database.sqlite'),
+const {
+  DB_HOST = 'localhost',
+  DB_PORT = 5432,
+  DB_USER = 'postgres',
+  DB_PASSWORD = 'password',
+  DB_NAME = 'postgres',
+  DB_DIALECT = 'postgres',
+} = process.env;
+
+// Initialize Sequelize for PostgreSQL
+const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
+  host: DB_HOST,
+  port: DB_PORT,
+  dialect: DB_DIALECT,
   logging: (msg) => logger.debug(msg),
   pool: {
     max: 10,
@@ -26,9 +35,10 @@ const sequelize = new Sequelize({
 const connectDB = async () => {
   try {
     await sequelize.authenticate();
-    logger.info('✅ Database connection established successfully');
+    logger.info('✅ PostgreSQL connection established successfully');
   } catch (error) {
-    logger.error('❌ Unable to connect to the database:', error.message);
+    logger.error('❌ Unable to connect to PostgreSQL database:', error.message);
+    logger.info(`👉 Ensure PostgreSQL is running on ${DB_HOST}:${DB_PORT} with user '${DB_USER}'`);
     process.exit(1);
   }
 };
