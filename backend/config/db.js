@@ -37,7 +37,7 @@ const connectDB = async () => {
     await sequelize.authenticate();
     logger.info('✅ PostgreSQL connection established successfully');
   } catch (error) {
-    logger.error('❌ Unable to connect to PostgreSQL database:', error.message);
+    logger.error(`❌ Unable to connect to PostgreSQL database: ${error.message}`);
     logger.info(`👉 Ensure PostgreSQL is running on ${DB_HOST}:${DB_PORT} with user '${DB_USER}'`);
     process.exit(1);
   }
